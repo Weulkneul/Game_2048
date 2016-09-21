@@ -14,10 +14,26 @@ class Gameboard2048 {
            return size;
        }
 
+       this.getCalculate = function(min, max) {
+           return calculate(min, max);
+       }
+
+       this.getNum = function(){
+           return numb();
+       }
+
+       this.getIndex1 = function(wert){
+           return index1(wert);
+       }
+
+       this.getIndex2 = function(wert) {
+           return index2(wert);
+       }
+
        function calculate(min, max){
             return Math.floor(Math.random()*(max-min+1))+min;
             }
-        function getNum(){
+        function numb(){
             let num = Math.random();
             if(num < 0.9){
                 return 2;
@@ -26,10 +42,10 @@ class Gameboard2048 {
                 return 4;
             }
          }
-        function getIndex1(wert){
+        function index1(wert){
             return Math.ceil(wert / 4) - 1;
          }
-        function getIndex2(wert){
+        function index2(wert){
             if(wert % 4 == 0) {
                 return 3;
             }
@@ -47,41 +63,17 @@ class Gameboard2048 {
         }
         var zahl1 = calculate(1,16);
         console.log(zahl1);
-        matrix[getIndex1(zahl1)][getIndex2(zahl1)] = getNum();
+        matrix[index1(zahl1)][index2(zahl1)] = numb();
         do{
             var zahl2 = calculate(1,16);
         } while(zahl1 === zahl2)
         console.log(zahl2);
-        matrix[getIndex1(zahl2)][getIndex2(zahl2)] = getNum();
+        matrix[index1(zahl2)][index2(zahl2)] = numb();
         console.log("Initialize:");
         }
 
         initialize();
     }
-
-    calculate(min, max){
-            return Math.floor(Math.random()*(max-min+1))+min;
-            }
-    getNum(){
-            let num = Math.random();
-            if(num < 0.9){
-                return 2;
-            }
-            else {
-                return 4;
-            }
-         }
-    getIndex1(wert){
-            return Math.ceil(wert / 4) - 1;
-         }
-    getIndex2(wert){
-            if(wert % 4 == 0) {
-                return 3;
-            }
-            else {
-                return wert % 4 -1;
-            }
-         }
 
    moveright(){
     let changed = false;
@@ -101,17 +93,12 @@ class Gameboard2048 {
                         changed = true;
                         add= true;
                         j++;
-                        while(j < matrix[i].length-1 && matrix[i][j+1] === 0) {
-                        matrix[i][j+1] = matrix[i][j];
-                        matrix[i][j] = 0;
-                        j++;
-                     }
                     }
                }
            }
        }
        do{
-       var zahl = this.calculate(1,16);
+       var zahl = this.getCalculate(1,16);
        } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
        if(changed){
            matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
@@ -137,17 +124,12 @@ class Gameboard2048 {
                         changed=true;
                         add = true;
                         j--;
-                        while(j>0 && matrix[i][j-1] === 0) {
-                        matrix[i][j-1] = matrix[i][j];
-                        matrix[i][j] = 0;
-                        j--;
-                        }
                     }
                }
            }
        }
        do{
-       var zahl = this.calculate(1,16);
+       var zahl = this.getCalculate(1,16);
        } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
        if(changed){
            matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
@@ -173,17 +155,12 @@ class Gameboard2048 {
                         j--;
                         add = true;
                         changed=true;
-                        while(j>0 && matrix[j-1][i] === 0) {
-                        matrix[j-1][i] = matrix[j][i];
-                        matrix[j][i] = 0;
-                        j--;
-                     }
                     }
                }
            }
        }
        do{
-       var zahl = this.calculate(1,16);
+       var zahl = this.getCalculate(1,16);
        } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
        if(changed){
            matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
@@ -209,17 +186,12 @@ class Gameboard2048 {
                         j++;
                         changed = true;
                         add = true;
-                         while(j < matrix.length-1 && matrix[j+1][i] === 0) {
-                        matrix[j+1][i] = matrix[j][i];
-                        matrix[j][i] = 0;
-                        j++;
-                     }
                     }
                }
            }
        }
        do{
-       var zahl = this.calculate(1,16);
+       var zahl = this.getCalculate(1,16);
        } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0)
        if(changed){
            matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
