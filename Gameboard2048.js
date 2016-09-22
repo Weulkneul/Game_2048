@@ -1,81 +1,65 @@
 'use strict';
 
-var matrix;
 
-class Gameboard2048 {
-
-   constructor(size){
-       var size = size;
-       matrix = new Array(size);
-       this.getMatrix = function() {
-           return matrix;
-       }
-       this.getSize = function(){
-           return size;
-       }
-
-       this.getCalculate = function(min, max) {
-           return calculate(min, max);
-       }
-
-       this.getNum = function(){
-           return numb();
-       }
-
-       this.getIndex1 = function(wert){
-           return index1(wert);
-       }
-
-       this.getIndex2 = function(wert) {
-           return index2(wert);
-       }
-
-       function calculate(min, max){
-            return Math.floor(Math.random()*(max-min+1))+min;
-            }
-        function numb(){
-            let num = Math.random();
-            if(num < 0.9){
-                return 2;
-            }
-            else {
-                return 4;
-            }
-         }
-        function index1(wert){
-            return Math.ceil(wert / 4) - 1;
-         }
-        function index2(wert){
-            if(wert % 4 == 0) {
-                return 3;
-            }
-            else {
-                return wert % 4 -1;
-            }
-         }
-
-       function initialize(){
-        for(let i=0; i < size; i++){
-            matrix[i] = new Array(size);
-            for(let j=0; j < size; j++){
-                matrix[i][j] = 0;
-            }
-        }
-        var zahl1 = calculate(1,16);
-        console.log(zahl1);
-        matrix[index1(zahl1)][index2(zahl1)] = numb();
-        do{
-            var zahl2 = calculate(1,16);
-        } while(zahl1 === zahl2)
-        console.log(zahl2);
-        matrix[index1(zahl2)][index2(zahl2)] = numb();
-        console.log("Initialize:");
-        }
-
-        initialize();
+class GameBoard2048 {
+   
+    getMatrix() {
+        return this._matrix;
+    }
+       
+    getSize(){
+        return this._size;
     }
 
-   moveright(){
+    getRandomFreeCell(){
+            return Math.floor(Math.random()*this.getSize()*this.getSize())+1;
+    }
+
+    getRandomCellValue(){
+        return Math.random()<0.9 ? 2 : 4;
+    }
+
+    getRow(index){
+        return Math.ceil(index / this.getSize()) - 1;
+    }
+
+    getColumn(index){
+        return index % size === 0 ? this.getSize()-1 : index % this.getSize()-1; 
+    }
+   
+   constructor(size){
+       
+       this._size = size;
+       this._matrix = new Array(size);
+
+       for(let i=0; i < size; i++){
+            this._matrix[i] = new Array(size);
+            for(let j=0; j < size; j++){
+                this._matrix[i][j] = 0;
+            }
+        }
+
+        
+        var zahl1 = this.getRandomFreeCell();
+        console.log(zahl1);
+        this._matrix[this.getRow(zahl1)][this.getColumn(zahl1)] = this.getRandomCellValue();
+
+        var zahl2 = this.getRandomFreeCell();
+
+        console.log(zahl2);
+        this._matrix[this.getRow(zahl2)][this.getColumn(zahl2)] = this.getRandomCellValue();
+        console.log("Initialize:");
+   }
+   
+
+   printMatrix(){
+       for(let i=0; i<this.getSize();i++){
+            console.log(this.getMatrix()[i]);
+       }
+       console.log("\n");
+   } 
+
+   moveRight(){
     let changed = false;
        for(let i=0; i< matrix.length; i++){
             let add = false;
@@ -106,7 +90,7 @@ class Gameboard2048 {
        console.log("Right:");
    }
 
-   moveleft(){
+   moveLeft(){
     let changed = false;
        for(let i=0; i< matrix.length; i++){
             let add = false;
@@ -137,7 +121,7 @@ class Gameboard2048 {
         console.log("Left:");
    }
 
-   moveup(){
+   moveUp(){
     let changed = false;
        for(let i=0; i<matrix.length; i++){
             let add = false;
@@ -168,7 +152,7 @@ class Gameboard2048 {
         console.log("Up:");
    }
 
-   movedown(){
+   moveDown(){
     let changed = false;
        for(let i=0; i<matrix.length; i++){
            let add = false;
@@ -199,40 +183,35 @@ class Gameboard2048 {
         console.log("Down:");
    }
 
-   printMatrix(){
-       for(let i=0; i<4;i++){
-            console.log(matrix[i]);
-       }
-       console.log("\n");
-   }
+   
 }
 
-var game = new Gameboard2048(4);
+var game = new GameBoard2048(4);
 game.printMatrix();
-game.moveright();
+/*game.moveRight();
 game.printMatrix();
-game.movedown();
+game.moveDown();
 game.printMatrix();
-game.moveright();
+game.moveRight();
 game.printMatrix();
-game.movedown();
+game.moveDown();
 game.printMatrix();
-game.moveright();
+game.moveRight();
 game.printMatrix();
-game.moveleft();
+game.moveLeft();
 game.printMatrix();
-game.moveup();
+game.moveUp();
 game.printMatrix();
-game.moveleft();
+game.moveLeft();
 game.printMatrix();
-game.movedown();
+game.moveDown();
 game.printMatrix();
-game.moveup();
+game.moveUp();
 game.printMatrix();
-game.moveright();
+game.moveRight();
 game.printMatrix();
-game.moveleft();
-game.printMatrix();
+game.moveLeft();
+game.printMatrix();*/
 
 
 

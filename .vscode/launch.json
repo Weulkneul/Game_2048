@@ -5,7 +5,7 @@
             "name": "Starten",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/field.js",
+            "program": "${workspaceRoot}/GameBoard2048.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",
