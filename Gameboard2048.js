@@ -12,7 +12,11 @@ class GameBoard2048 {
     }
 
     getRandomFreeCell(){
-            return Math.floor(Math.random()*this.getSize()*this.getSize())+1;
+        let zahl;
+        do {
+        zahl = Math.floor(Math.random()*this.getSize()*this.getSize())+1;
+        } while(this.getMatrix()[this.getRow(zahl)][this.getColumn(zahl)] !== 0) 
+        return zahl;
     }
 
     getRandomCellValue(){
@@ -24,7 +28,7 @@ class GameBoard2048 {
     }
 
     getColumn(index){
-        return index % size === 0 ? this.getSize()-1 : index % this.getSize()-1; 
+        return index % this.getSize() === 0 ? this.getSize()-1 : index % this.getSize()-1; 
     }
    
    constructor(size){
@@ -61,124 +65,148 @@ class GameBoard2048 {
 
    moveRight(){
     let changed = false;
-       for(let i=0; i< matrix.length; i++){
-            let add = false;
-           for(let j=matrix[i].length-1; j>=0; j--) {
-               if(matrix[i][j] !== 0 ) {
-                   while(j < matrix[i].length-1 && matrix[i][j+1] === 0) {
-                        matrix[i][j+1] = matrix[i][j];
-                        matrix[i][j] = 0;
+       for(let i=0; i< this.getMatrix().length; i++){
+           let alreadyJoinedTogether = new Array(this.getSize());
+           for(let k = 0; k < alreadyJoinedTogether.length; k++){
+               alreadyJoinedTogether[k] = false;
+           }
+           for(let j = this.getMatrix()[i].length-1; j>=0; j--) {
+               if(this.getMatrix()[i][j] !== 0 ) {
+                   while(j < this.getMatrix()[i].length-1 && this.getMatrix()[i][j+1] === 0) {
+                        this.getMatrix()[i][j+1] = this.getMatrix()[i][j];
+                        this.getMatrix()[i][j] = 0;
                         changed=true;
                         j++;
                    }
-                    if(j < matrix[i].length-1 && matrix[i][j] === matrix[i][j+1] && !add) {
-                        matrix[i][j+1] = matrix[i][j] + matrix[i][j+1];
-                        matrix[i][j] = 0;
+                    if(j < this.getMatrix()[i].length-1 && this.getMatrix()[i][j] === this.getMatrix()[i][j+1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
+                        this.getMatrix()[i][j+1] = this.getMatrix()[i][j] + this.getMatrix()[i][j+1];
+                        this.getMatrix()[i][j] = 0;
                         changed = true;
-                        add= true;
                         j++;
+                        while(j < this.getMatrix()[i].length-1 && this.getMatrix()[i][j+1] === 0) {
+                            this.getMatrix()[i][j+1] = this.getMatrix()[i][j];
+                            this.getMatrix()[i][j] = 0;
+                            j++;
+                        }
+                        alreadyJoinedTogether[j] = true;
                     }
                }
            }
        }
-       do{
-       var zahl = this.getCalculate(1,16);
-       } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
+       let zahl = this.getRandomFreeCell();
        if(changed){
-           matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
+           this.getMatrix()[this.getRow(zahl)][this.getColumn(zahl)] = this.getRandomCellValue();
        }
        console.log("Right:");
    }
 
    moveLeft(){
     let changed = false;
-       for(let i=0; i< matrix.length; i++){
-            let add = false;
-           for(let j=0; j <= matrix[i].length-1; j++) {
-               if(matrix[i][j] !== 0 ) {
-                   while(j>0 && matrix[i][j-1] === 0) {
-                        matrix[i][j-1] = matrix[i][j];
-                        matrix[i][j] = 0;
+       for(let i=0; i< this.getMatrix().length; i++){
+            let alreadyJoinedTogether = new Array(this.getSize());
+           for(let k = 0; k < alreadyJoinedTogether.length; k++){
+               alreadyJoinedTogether[k] = false;
+           }
+           for(let j=0; j <= this.getMatrix()[i].length-1; j++) {
+               if(this.getMatrix()[i][j] !== 0 ) {
+                   while(j > 0 && this.getMatrix()[i][j-1] === 0) {
+                        this.getMatrix()[i][j-1] = this.getMatrix()[i][j];
+                        this.getMatrix()[i][j] = 0;
                         changed=true;
                         j--;
                    }
-                    if(j > 0 && matrix[i][j] === matrix[i][j-1] && !add) {
-                        matrix[i][j-1] = matrix[i][j] + matrix[i][j-1];
-                        matrix[i][j] = 0;
+                    if(j > 0 && this.getMatrix()[i][j] === this.getMatrix()[i][j-1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
+                        this.getMatrix()[i][j-1] = this.getMatrix()[i][j] + this.getMatrix()[i][j-1];
+                        this.getMatrix()[i][j] = 0;
                         changed=true;
-                        add = true;
                         j--;
+                        while(j > 0 && this.getMatrix()[i][j-1] === 0) {
+                            this.getMatrix()[i][j-1] = this.getMatrix()[i][j];
+                            this.getMatrix()[i][j] = 0;
+                            j--;
+                        }
+                        alreadyJoinedTogether[j] = true;  
                     }
                }
            }
        }
-       do{
-       var zahl = this.getCalculate(1,16);
-       } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
+       let zahl = this.getRandomFreeCell();
        if(changed){
-           matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
+           this.getMatrix()[this.getRow(zahl)][this.getColumn(zahl)] = this.getRandomCellValue();
        }
         console.log("Left:");
    }
 
    moveUp(){
     let changed = false;
-       for(let i=0; i<matrix.length; i++){
-            let add = false;
-           for(let j=0; j<=matrix.length-1; j++) {
-               if(matrix[j][i] !== 0 ) {
-                   while(j>0 && matrix[j-1][i] === 0) {
-                        matrix[j-1][i] = matrix[j][i];
-                        matrix[j][i] = 0;
+       for(let i=0; i < this.getMatrix().length; i++){
+            let alreadyJoinedTogether = new Array(this.getSize());
+           for(let k = 0; k < alreadyJoinedTogether.length; k++){
+               alreadyJoinedTogether[k] = false;
+           }
+           for(let j=0; j <= this.getMatrix().length-1; j++) {
+               if(this.getMatrix()[j][i] !== 0 ) {
+                   while(j > 0 && this.getMatrix()[j-1][i] === 0) {
+                        this.getMatrix()[j-1][i] = this.getMatrix()[j][i];
+                        this.getMatrix()[j][i] = 0;
                         changed = true;
                         j--;
                    }
-                    if(j>0 && matrix[j][i] === matrix[j-1][i] && !add) {
-                        matrix[j-1][i] = matrix[j][i] + matrix[j-1][i];
-                        matrix[j][i] = 0;
+                    if(j > 0 && this.getMatrix()[j][i] === this.getMatrix()[j-1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
+                        this.getMatrix()[j-1][i] = this.getMatrix()[j][i] + this.getMatrix()[j-1][i];
+                        this.getMatrix()[j][i] = 0;
                         j--;
-                        add = true;
                         changed=true;
+                        while(j > 0 && this.getMatrix()[j-1][i] === 0) {
+                            this.getMatrix()[j-1][i] = this.getMatrix()[j][i];
+                            this.getMatrix()[j][i] = 0;
+                            j--;
+                        }
+                        alreadyJoinedTogether[j] = true;
                     }
                }
            }
        }
-       do{
-       var zahl = this.getCalculate(1,16);
-       } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0) 
+      let zahl = this.getRandomFreeCell();
        if(changed){
-           matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
+           this.getMatrix()[this.getRow(zahl)][this.getColumn(zahl)] = this.getRandomCellValue();
        }
         console.log("Up:");
    }
 
    moveDown(){
     let changed = false;
-       for(let i=0; i<matrix.length; i++){
-           let add = false;
-           for(let j=matrix.length-1; j>=0; j--) {
-               if(matrix[j][i] !== 0 ) {
-                   while(j < matrix.length-1 && matrix[j+1][i] === 0) {
-                        matrix[j+1][i] = matrix[j][i];
-                        matrix[j][i] = 0;
+       for(let i=0; i < this.getMatrix().length; i++){
+            let alreadyJoinedTogether = new Array(this.getSize());
+           for(let k = 0; k < alreadyJoinedTogether.length; k++){
+               alreadyJoinedTogether[k] = false;
+           }
+           for(let j = this.getMatrix().length-1; j >= 0; j--) {
+               if(this.getMatrix()[j][i] !== 0 ) {
+                   while(j < this.getMatrix().length-1 && this.getMatrix()[j+1][i] === 0) {
+                        this.getMatrix()[j+1][i] = this.getMatrix()[j][i];
+                        this.getMatrix()[j][i] = 0;
                         changed = true;
                         j++;
                    }
-                    if(j < matrix.length-1 && matrix[j][i] === matrix[j+1][i] && !add) {
-                        matrix[j+1][i] = matrix[j][i] + matrix[j+1][i];
-                        matrix[j][i] = 0;
+                    if(j < this.getMatrix().length-1 && this.getMatrix()[j][i] === this.getMatrix()[j+1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
+                        this.getMatrix()[j+1][i] = this.getMatrix()[j][i] + this.getMatrix()[j+1][i];
+                        this.getMatrix()[j][i] = 0;
                         j++;
                         changed = true;
-                        add = true;
+                        while(j < this.getMatrix().length-1 && this.getMatrix()[j+1][i] === 0) {
+                            this.getMatrix()[j+1][i] = this.getMatrix()[j][i];
+                            this.getMatrix()[j][i] = 0;
+                            j++;
+                        }
+                        alreadyJoinedTogether[j] = true;
                     }
                }
            }
        }
-       do{
-       var zahl = this.getCalculate(1,16);
-       } while(matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] !== 0)
+       let zahl = this.getRandomFreeCell();
        if(changed){
-           matrix[this.getIndex1(zahl)][this.getIndex2(zahl)] = this.getNum();
+           this.getMatrix()[this.getRow(zahl)][this.getColumn(zahl)] = this.getRandomCellValue();
        } 
         console.log("Down:");
    }
@@ -188,7 +216,7 @@ class GameBoard2048 {
 
 var game = new GameBoard2048(4);
 game.printMatrix();
-/*game.moveRight();
+game.moveRight();
 game.printMatrix();
 game.moveDown();
 game.printMatrix();
@@ -211,7 +239,7 @@ game.printMatrix();
 game.moveRight();
 game.printMatrix();
 game.moveLeft();
-game.printMatrix();*/
+game.printMatrix();
 
 
 
