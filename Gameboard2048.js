@@ -60,6 +60,7 @@ class GameBoard2048 {
 		console.log("\n");
 	}
 
+	//Matrix als HTML-Tabelle in einem String zusammenfassen
 	printTable() {
 		let table = "<table>";
 		for (let i = 0; i < this.getSize(); i++) {
@@ -75,20 +76,27 @@ class GameBoard2048 {
 	}
 
 	moveRight() {
+		//Variable "changed" zeigt, ob sich die Matrix geändert hat
 		let changed = false;
+		//Spalten durchlaufen
 		for (let i = 0; i < this.getMatrix().length; i++) {
+			//Array "alreadyJoinedTogether" merkt sich die Zahlen, die schon in diesem Zug addiert wurden
 			let alreadyJoinedTogether = new Array(this.getSize());
 			for (let k = 0; k < alreadyJoinedTogether.length; k++) {
 				alreadyJoinedTogether[k] = false;
 			}
+			//Zeile durchlaufen
 			for (let j = this.getMatrix()[i].length - 1; j >= 0; j--) {
+				//Enthält die Tabellenzelle eine 0 springt die for-Schleife zur nächsten Tabellenzelle
 				if (this.getMatrix()[i][j] !== 0) {
+					//Die Zahl soweit wie möglich nach rechts schieben
 					while (j < this.getMatrix()[i].length - 1 && this.getMatrix()[i][j + 1] === 0) {
 						this.getMatrix()[i][j + 1] = this.getMatrix()[i][j];
 						this.getMatrix()[i][j] = 0;
 						changed = true;
 						j++;
 					}
+					//Zahlen zusammenfügen, falls der Zahlenwert gleich ist
 					if (j < this.getMatrix()[i].length - 1 && this.getMatrix()[i][j] === this.getMatrix()[i][j + 1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
 						this.getMatrix()[i][j + 1] = this.getMatrix()[i][j] + this.getMatrix()[i][j + 1];
 						this.getMatrix()[i][j] = 0;
@@ -99,6 +107,7 @@ class GameBoard2048 {
 				}
 			}
 		}
+		//neue Zahl hinzufügen, wenn eine Änderung vorgenommen wurde
 		if (changed) {
 			this._spawnNumber();
 		}
