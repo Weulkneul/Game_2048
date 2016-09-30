@@ -1,216 +1,201 @@
-'use strict';
-
+"use strict";
 
 class GameBoard2048 {
-   
-    getMatrix() {
-        return this._matrix;
-    }
-       
-    getSize(){
-        return this._size;
-    }
 
-    _getRandomFreeCell(){
-        let zahl;
-        do {
-        zahl = Math.floor(Math.random()*this.getSize()*this.getSize())+1;
-        } while(this.getMatrix()[this._getRow(zahl)][this._getColumn(zahl)] !== 0) 
-        return zahl;
-    }
+	getMatrix() {
+		return this._matrix;
+	}
 
-    _getRandomCellValue(){
-        const cellValueProbability = 0.9;
-        return Math.random() < cellValueProbability ? 2 : 4;
-    }
+	getSize() {
+		return this._size;
+	}
 
-    _getRow(index){
-        return Math.ceil(index / this.getSize()) - 1;
-    }
+	_getRandomFreeCell() {
+		let zahl = 0;
+		do {
+			zahl = Math.floor(Math.random() * this.getSize() * this.getSize()) + 1;
+		} while (this.getMatrix()[this._getRow(zahl)][this._getColumn(zahl)] !== 0);
+		return zahl;
+	}
 
-    _getColumn(index){
-        return index % this.getSize() === 0 ? this.getSize()-1 : index % this.getSize()-1; 
-    }
+	_getRandomCellValue() {
+		const cellValueProbability = 0.9;
+		return Math.random() < cellValueProbability ? 2 : 4;
+	}
 
-    _spawnNumber(){
-         let zahl = this._getRandomFreeCell();
-         this._matrix[this._getRow(zahl)][this._getColumn(zahl)] = this._getRandomCellValue();
-    }
-   
-   constructor(size){
-       
-       this._size = size;
-       this._matrix = new Array(size);
+	_getRow(index) {
+		return Math.ceil(index / this.getSize()) - 1;
+	}
 
-       for(let i=0; i < size; i++){
-            this._matrix[i] = new Array(size);
-            for(let j=0; j < size; j++){
-                this._matrix[i][j] = 0;
-            }
-        }
+	_getColumn(index) {
+		return index % this.getSize() === 0 ? this.getSize() - 1 : (index % this.getSize()) - 1;
+	}
 
-        this._spawnNumber();
-        this._spawnNumber();
+	_spawnNumber() {
+		let zahl = this._getRandomFreeCell();
+		this._matrix[this._getRow(zahl)][this._getColumn(zahl)] = this._getRandomCellValue();
+	}
 
-        console.log("Initialize:");
-   }
-   
+	constructor(size) {
+		this._size = size;
+		this._matrix = new Array(size);
 
-   printMatrix(){
-       for(let i=0; i<this.getSize();i++){
-            console.log(this.getMatrix()[i]);
-       }
-       console.log("\n");
-   } 
+		for (let i = 0; i < size; i++) {
+			this._matrix[i] = new Array(size);
+			for (let j = 0; j < size; j++) {
+				this._matrix[i][j] = 0;
+			}
+		}
 
-   printTable(){
-       let table = "<table>";
-       for(let i = 0; i < this.getSize(); i++){
-           table += "<tr>";
-           for(let j = 0; j < this.getSize(); j++){
-               table += "<td class='td"+this.getMatrix()[i][j]+"'>" +this.getMatrix()[i][j]+"</td>";
-           }
-           table += "</tr>"
-       }
-       table += "</table>";
-       console.log(table);
-       return table;
-   }
+		this._spawnNumber();
+		this._spawnNumber();
 
-   moveRight(){
-    let changed = false;
-       for(let i=0; i< this.getMatrix().length; i++){
-           let alreadyJoinedTogether = new Array(this.getSize());
-           for(let k = 0; k < alreadyJoinedTogether.length; k++){
-               alreadyJoinedTogether[k] = false;
-           }
-           for(let j = this.getMatrix()[i].length-1; j>=0; j--) {
-               if(this.getMatrix()[i][j] !== 0 ) {
-                   while(j < this.getMatrix()[i].length-1 && this.getMatrix()[i][j+1] === 0) {
-                        this.getMatrix()[i][j+1] = this.getMatrix()[i][j];
-                        this.getMatrix()[i][j] = 0;
-                        changed=true;
-                        j++;
-                   }
-                    if(j < this.getMatrix()[i].length-1 && this.getMatrix()[i][j] === this.getMatrix()[i][j+1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
-                        this.getMatrix()[i][j+1] = this.getMatrix()[i][j] + this.getMatrix()[i][j+1];
-                        this.getMatrix()[i][j] = 0;
-                        changed = true;
-                        j++;
-                        alreadyJoinedTogether[j] = true;
-                    }
-               }
-           }
-       }
-       if(changed){
-           this._spawnNumber();
-       }
-       console.log("Right:");
-   }
+		console.log("Initialize:");
+	}
 
-   moveLeft(){
-    let changed = false;
-       for(let i=0; i< this.getMatrix().length; i++){
-            let alreadyJoinedTogether = new Array(this.getSize());
-           for(let k = 0; k < alreadyJoinedTogether.length; k++){
-               alreadyJoinedTogether[k] = false;
-           }
-           for(let j=0; j <= this.getMatrix()[i].length-1; j++) {
-               if(this.getMatrix()[i][j] !== 0 ) {
-                   while(j > 0 && this.getMatrix()[i][j-1] === 0) {
-                        this.getMatrix()[i][j-1] = this.getMatrix()[i][j];
-                        this.getMatrix()[i][j] = 0;
-                        changed=true;
-                        j--;
-                   }
-                    if(j > 0 && this.getMatrix()[i][j] === this.getMatrix()[i][j-1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
-                        this.getMatrix()[i][j-1] = this.getMatrix()[i][j] + this.getMatrix()[i][j-1];
-                        this.getMatrix()[i][j] = 0;
-                        changed=true;
-                        j--;
-                        alreadyJoinedTogether[j] = true;  
-                    }
-               }
-           }
-       }
-       if(changed){
-            this._spawnNumber();
-       }
-        console.log("Left:");
-   }
+	printMatrix() {
+		for (let i = 0; i < this.getSize(); i++) {
+			console.log(this.getMatrix()[i]);
+		}
+		console.log("\n");
+	}
 
-   moveUp(){
-    let changed = false;
-       for(let i=0; i < this.getMatrix().length; i++){
-            let alreadyJoinedTogether = new Array(this.getSize());
-           for(let k = 0; k < alreadyJoinedTogether.length; k++){
-               alreadyJoinedTogether[k] = false;
-           }
-           for(let j=0; j <= this.getMatrix().length-1; j++) {
-               if(this.getMatrix()[j][i] !== 0 ) {
-                   while(j > 0 && this.getMatrix()[j-1][i] === 0) {
-                        this.getMatrix()[j-1][i] = this.getMatrix()[j][i];
-                        this.getMatrix()[j][i] = 0;
-                        changed = true;
-                        j--;
-                   }
-                    if(j > 0 && this.getMatrix()[j][i] === this.getMatrix()[j-1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
-                        this.getMatrix()[j-1][i] = this.getMatrix()[j][i] + this.getMatrix()[j-1][i];
-                        this.getMatrix()[j][i] = 0;
-                        j--;
-                        changed=true;
-                        alreadyJoinedTogether[j] = true;
-                    }
-               }
-           }
-       }
-       if(changed){
-           this._spawnNumber();
-       }
-        console.log("Up:");
-   }
+	printTable() {
+		let table = "<table>";
+		for (let i = 0; i < this.getSize(); i++) {
+			table += "<tr>";
+			for (let j = 0; j < this.getSize(); j++) {
+				table += "<td class='td" + this.getMatrix()[i][j] + "'>" + this.getMatrix()[i][j] + "</td>";
+			}
+			table += "</tr>";
+		}
+		table += "</table>";
+		console.log(table);
+		return table;
+	}
 
-   moveDown(){
-    let changed = false;
-       for(let i=0; i < this.getMatrix().length; i++){
-            let alreadyJoinedTogether = new Array(this.getSize());
-           for(let k = 0; k < alreadyJoinedTogether.length; k++){
-               alreadyJoinedTogether[k] = false;
-           }
-           for(let j = this.getMatrix().length-1; j >= 0; j--) {
-               if(this.getMatrix()[j][i] !== 0 ) {
-                   while(j < this.getMatrix().length-1 && this.getMatrix()[j+1][i] === 0) {
-                        this.getMatrix()[j+1][i] = this.getMatrix()[j][i];
-                        this.getMatrix()[j][i] = 0;
-                        changed = true;
-                        j++;
-                   }
-                    if(j < this.getMatrix().length-1 && this.getMatrix()[j][i] === this.getMatrix()[j+1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j+1]) {
-                        this.getMatrix()[j+1][i] = this.getMatrix()[j][i] + this.getMatrix()[j+1][i];
-                        this.getMatrix()[j][i] = 0;
-                        j++;
-                        changed = true;
-                        alreadyJoinedTogether[j] = true;
-                    }
-               }
-           }
-       }
-       if(changed){
-           this._spawnNumber();
-       } 
-        console.log("Down:");
-   }
+	moveRight() {
+		let changed = false;
+		for (let i = 0; i < this.getMatrix().length; i++) {
+			let alreadyJoinedTogether = new Array(this.getSize());
+			for (let k = 0; k < alreadyJoinedTogether.length; k++) {
+				alreadyJoinedTogether[k] = false;
+			}
+			for (let j = this.getMatrix()[i].length - 1; j >= 0; j--) {
+				if (this.getMatrix()[i][j] !== 0) {
+					while (j < this.getMatrix()[i].length - 1 && this.getMatrix()[i][j + 1] === 0) {
+						this.getMatrix()[i][j + 1] = this.getMatrix()[i][j];
+						this.getMatrix()[i][j] = 0;
+						changed = true;
+						j++;
+					}
+					if (j < this.getMatrix()[i].length - 1 && this.getMatrix()[i][j] === this.getMatrix()[i][j + 1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
+						this.getMatrix()[i][j + 1] = this.getMatrix()[i][j] + this.getMatrix()[i][j + 1];
+						this.getMatrix()[i][j] = 0;
+						changed = true;
+						j++;
+						alreadyJoinedTogether[j] = true;
+					}
+				}
+			}
+		}
+		if (changed) {
+			this._spawnNumber();
+		}
+		console.log("Right:");
+	}
+
+	moveLeft() {
+		let changed = false;
+		for (let i = 0; i < this.getMatrix().length; i++) {
+			let alreadyJoinedTogether = new Array(this.getSize());
+			for (let k = 0; k < alreadyJoinedTogether.length; k++) {
+				alreadyJoinedTogether[k] = false;
+			}
+			for (let j = 0; j <= this.getMatrix()[i].length - 1; j++) {
+				if (this.getMatrix()[i][j] !== 0) {
+					while (j > 0 && this.getMatrix()[i][j - 1] === 0) {
+						this.getMatrix()[i][j - 1] = this.getMatrix()[i][j];
+						this.getMatrix()[i][j] = 0;
+						changed = true;
+						j--;
+					}
+					if (j > 0 && this.getMatrix()[i][j] === this.getMatrix()[i][j - 1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
+						this.getMatrix()[i][j - 1] = this.getMatrix()[i][j] + this.getMatrix()[i][j - 1];
+						this.getMatrix()[i][j] = 0;
+						changed = true;
+						j--;
+						alreadyJoinedTogether[j] = true;
+					}
+				}
+			}
+		}
+		if (changed) {
+			this._spawnNumber();
+		}
+		console.log("Left:");
+	}
+
+	moveUp() {
+		let changed = false;
+		for (let i = 0; i < this.getMatrix().length; i++) {
+			let alreadyJoinedTogether = new Array(this.getSize());
+			for (let k = 0; k < alreadyJoinedTogether.length; k++) {
+				alreadyJoinedTogether[k] = false;
+			}
+			for (let j = 0; j <= this.getMatrix().length - 1; j++) {
+				if (this.getMatrix()[j][i] !== 0) {
+					while (j > 0 && this.getMatrix()[j - 1][i] === 0) {
+						this.getMatrix()[j - 1][i] = this.getMatrix()[j][i];
+						this.getMatrix()[j][i] = 0;
+						changed = true;
+						j--;
+					}
+					if (j > 0 && this.getMatrix()[j][i] === this.getMatrix()[j - 1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
+						this.getMatrix()[j - 1][i] = this.getMatrix()[j][i] + this.getMatrix()[j - 1][i];
+						this.getMatrix()[j][i] = 0;
+						j--;
+						changed = true;
+						alreadyJoinedTogether[j] = true;
+					}
+				}
+			}
+		}
+		if (changed) {
+			this._spawnNumber();
+		}
+		console.log("Up:");
+	}
+
+	moveDown() {
+		let changed = false;
+		for (let i = 0; i < this.getMatrix().length; i++) {
+			let alreadyJoinedTogether = new Array(this.getSize());
+			for (let k = 0; k < alreadyJoinedTogether.length; k++) {
+				alreadyJoinedTogether[k] = false;
+			}
+			for (let j = this.getMatrix().length - 1; j >= 0; j--) {
+				if (this.getMatrix()[j][i] !== 0) {
+					while (j < this.getMatrix().length - 1 && this.getMatrix()[j + 1][i] === 0) {
+						this.getMatrix()[j + 1][i] = this.getMatrix()[j][i];
+						this.getMatrix()[j][i] = 0;
+						changed = true;
+						j++;
+					}
+					if (j < this.getMatrix().length - 1 && this.getMatrix()[j][i] === this.getMatrix()[j + 1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
+						this.getMatrix()[j + 1][i] = this.getMatrix()[j][i] + this.getMatrix()[j + 1][i];
+						this.getMatrix()[j][i] = 0;
+						j++;
+						changed = true;
+						alreadyJoinedTogether[j] = true;
+					}
+				}
+			}
+		}
+		if (changed) {
+			this._spawnNumber();
+		}
+		console.log("Down:");
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
