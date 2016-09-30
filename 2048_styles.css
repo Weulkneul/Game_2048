@@ -1,0 +1,53 @@
+td{
+    border: 1px solid black;
+    padding: 15px; 
+}
+
+td.td0{
+     background-color: white;
+}
+
+td.td2{
+    background-color: #ff0000;
+}
+
+td.td4 {
+    background-color: #ff4444;
+}
+
+td.td8 {
+    background-color: #ff8000;
+}
+
+td.td16 {
+    background-color: #ffbf00;
+}
+
+td.td32 {
+    background-color: #ffff00;
+}
+
+td.td64 {
+    background-color: #bfff00;
+}
+
+td.td128 {
+    background-color: #00ff80;
+}
+
+td.td256 {
+    background-color: #00ffff;
+}
+
+td.td512 {
+    background-color: #0080ff;
+}
+
+td.td1024 {
+    background-color: #0000ff;
+}
+
+td.td2048 {
+    background-color: #8000ff;
+}
+
