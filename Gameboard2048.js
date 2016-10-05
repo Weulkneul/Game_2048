@@ -10,6 +10,14 @@ class GameBoard2048 {
 		return this._size;
 	}
 
+	getScore() {
+		return this._score;
+	}
+
+	_setScore(score) {
+		this._score = score;
+	}
+
 	_getRandomFreeCell() {
 		let zahl = 0;
 		do {
@@ -33,12 +41,13 @@ class GameBoard2048 {
 
 	_spawnNumber() {
 		let zahl = this._getRandomFreeCell();
-		this._matrix[this._getRow(zahl)][this._getColumn(zahl)] = this._getRandomCellValue();
+		this.getMatrix()[this._getRow(zahl)][this._getColumn(zahl)] = this._getRandomCellValue();
 	}
 
 	constructor(size) {
 		this._size = size;
 		this._matrix = new Array(size);
+		this._score = 0;
 
 		for (let i = 0; i < size; i++) {
 			this._matrix[i] = new Array(size);
@@ -100,6 +109,7 @@ class GameBoard2048 {
 					if (j < this.getMatrix()[i].length - 1 && this.getMatrix()[i][j] === this.getMatrix()[i][j + 1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
 						this.getMatrix()[i][j + 1] = this.getMatrix()[i][j] + this.getMatrix()[i][j + 1];
 						this.getMatrix()[i][j] = 0;
+						this._setScore(this.getScore() + this.getMatrix()[i][j+1]);
 						changed = true;
 						j++;
 						alreadyJoinedTogether[j] = true;
@@ -109,7 +119,7 @@ class GameBoard2048 {
 		}
 		//neue Zahl hinzufügen, wenn eine Änderung vorgenommen wurde
 		if (changed) {
-			this._spawnNumber();
+			setTimeout(this._spawnNumber(), 1000);
 		}
 		console.log("Right:");
 	}
@@ -132,6 +142,7 @@ class GameBoard2048 {
 					if (j > 0 && this.getMatrix()[i][j] === this.getMatrix()[i][j - 1] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
 						this.getMatrix()[i][j - 1] = this.getMatrix()[i][j] + this.getMatrix()[i][j - 1];
 						this.getMatrix()[i][j] = 0;
+						this._setScore(this.getScore() + this.getMatrix()[i][j - 1]);
 						changed = true;
 						j--;
 						alreadyJoinedTogether[j] = true;
@@ -140,7 +151,7 @@ class GameBoard2048 {
 			}
 		}
 		if (changed) {
-			this._spawnNumber();
+			setTimeout(this._spawnNumber(), 1000);
 		}
 		console.log("Left:");
 	}
@@ -163,6 +174,7 @@ class GameBoard2048 {
 					if (j > 0 && this.getMatrix()[j][i] === this.getMatrix()[j - 1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
 						this.getMatrix()[j - 1][i] = this.getMatrix()[j][i] + this.getMatrix()[j - 1][i];
 						this.getMatrix()[j][i] = 0;
+						this._setScore(this.getScore() + this.getMatrix()[j - 1][i]);
 						j--;
 						changed = true;
 						alreadyJoinedTogether[j] = true;
@@ -171,7 +183,7 @@ class GameBoard2048 {
 			}
 		}
 		if (changed) {
-			this._spawnNumber();
+			setTimeout(this._spawnNumber(), 1000);
 		}
 		console.log("Up:");
 	}
@@ -194,6 +206,7 @@ class GameBoard2048 {
 					if (j < this.getMatrix().length - 1 && this.getMatrix()[j][i] === this.getMatrix()[j + 1][i] && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
 						this.getMatrix()[j + 1][i] = this.getMatrix()[j][i] + this.getMatrix()[j + 1][i];
 						this.getMatrix()[j][i] = 0;
+						this._setScore(this.getScore() + this.getMatrix()[j + 1][i]);
 						j++;
 						changed = true;
 						alreadyJoinedTogether[j] = true;
@@ -202,7 +215,7 @@ class GameBoard2048 {
 			}
 		}
 		if (changed) {
-			this._spawnNumber();
+			setTimeout(this._spawnNumber(), 1000);
 		}
 		console.log("Down:");
 	}

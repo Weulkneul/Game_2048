@@ -8,6 +8,7 @@
   </head>
   <body>
     <p><strong>2048</strong></p>
+    <p id="score">Score: 0</p>
     <div id="table_board"></div>
     <script type="text/javascript" src="GameBoard2048.js"></script>
     <script>
@@ -18,18 +19,22 @@
             case 37:
               game.moveLeft();
               document.getElementById("table_board").innerHTML = game.printTable();
+              document.getElementById("score").innerHTML = "Score: " + game.getScore();
               break;
             case 38:
               game.moveUp();
               document.getElementById("table_board").innerHTML = game.printTable();
+              document.getElementById("score").innerHTML = "Score: " + game.getScore();
               break;
             case 39:
               game.moveRight();
               document.getElementById("table_board").innerHTML = game.printTable();
+              document.getElementById("score").innerHTML = "Score: " + game.getScore();
               break;
             case 40:
               game.moveDown();
               document.getElementById("table_board").innerHTML = game.printTable();
+              document.getElementById("score").innerHTML = "Score: " + game.getScore();
               break;
           }
       };
