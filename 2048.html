@@ -7,37 +7,13 @@
     <link rel="stylesheet" href="2048_styles.css">
   </head>
   <body>
-    <p><strong>2048</strong></p>
-    <p id="score">Score: 0</p>
+    <h1>2048</h1>
+    <p id="score"></p>
     <div id="table_board"></div>
-    <script type="text/javascript" src="GameBoard2048.js"></script>
+    <button id="restartButton" style="visibility: hidden;">Restart</button>
+    <script type="text/javascript" src="node_modules/requirejs/require.js"></script>
     <script>
-        var game = new GameBoard2048(4);
-        document.getElementById("table_board").innerHTML = game.printTable();
-        document.onkeydown = function(e) {
-          switch (e.keyCode) {
-            case 37:
-              game.moveLeft();
-              document.getElementById("table_board").innerHTML = game.printTable();
-              document.getElementById("score").innerHTML = "Score: " + game.getScore();
-              break;
-            case 38:
-              game.moveUp();
-              document.getElementById("table_board").innerHTML = game.printTable();
-              document.getElementById("score").innerHTML = "Score: " + game.getScore();
-              break;
-            case 39:
-              game.moveRight();
-              document.getElementById("table_board").innerHTML = game.printTable();
-              document.getElementById("score").innerHTML = "Score: " + game.getScore();
-              break;
-            case 40:
-              game.moveDown();
-              document.getElementById("table_board").innerHTML = game.printTable();
-              document.getElementById("score").innerHTML = "Score: " + game.getScore();
-              break;
-          }
-      };
+      require(["Game2048"], function(Game2048) { new Game2048(); });
     </script>
   </body>
 </html>
