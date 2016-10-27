@@ -9,12 +9,17 @@ define("HtmlRenderer2048", [],
 			}
 
 			//Matrix als HTML-Tabelle in einem String zusammenfassen
-			printTable() {
+			printTable(newNumbersArray) {
 				let table = "<table>";
 				for (let i = 0; i < this._board.getSize(); i++) {
 					table += "<tr>";
 					for (let j = 0; j < this._board.getSize(); j++) {
-						table += "<td class='cell" + this._board.getMatrix()[i][j] + "'>" + this._board.getMatrix()[i][j] + "</td>";
+						let classes = "cell" + this._board.getMatrix()[i][j];
+						const NOTFOUND = -1;
+						if (newNumbersArray.indexOf((i * this._board.getSize()) + (j + 1)) !== NOTFOUND) {
+							classes += " spawn";
+						}
+						table += "<td class='" + classes + "'>" + this._board.getMatrix()[i][j] + "</td>";
 					}
 					table += "</tr>";
 				}
@@ -23,12 +28,12 @@ define("HtmlRenderer2048", [],
 				return table;
 			}
 
-			_refreshBoardAndScore() {
-				document.getElementById("table_board").innerHTML = this.printTable();
+			refreshBoardAndScore() {
+				document.getElementById("table_board").innerHTML = this.printTable(this._board.getNewNumbersArray());
 				document.getElementById("score").innerHTML = "Score: " + this._board.getScore();
 			}
 
-			_placeRestartButton() {
+			placeRestartButton() {
 				document.getElementById("restartButton").style.visibility = "visible";
 				document.getElementById("score").style.fontWeight = "bold";
 				document.getElementById("restartButton").onclick = this._resetGameBoard.bind(this);
@@ -37,7 +42,7 @@ define("HtmlRenderer2048", [],
 			_resetGameBoard() {
 				document.getElementById("restartButton").style.visibility = "hidden";
 				document.getElementById("score").style.fontWeight = "normal";
-				this._game._resetGame(this._board.getSize());
+				this._game.resetGame(this._board.getSize());
 			}
 
 		}

@@ -15,100 +15,55 @@ td {
 td.cell2 {
   background-color: #ff0000;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell4 {
   background-color: #ff4444;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell8 {
   background-color: #ff8000;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell16 {
   background-color: #ffbf00;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell32 {
   background-color: #ffff00;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell64 {
   background-color: #bfff00;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell128 {
   background-color: #00ff80;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell256 {
   background-color: #00ffff;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell512 {
   background-color: #0080ff;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell1024 {
   background-color: #0000ff;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
 td.cell2048 {
   background-color: #8000ff;
   text-shadow: 1px 1px 1px black;
-  -webkit-animation: expand 400ms;
-  animation: expand 400ms;
 }
-@keyframes expand {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 0;
-  }
-  90% {
-    width: 120px;
-    height: 120px;
-    opacity: 1;
-  }
-  100% {
-    width: 100px;
-    height: 100px;
-    opacity: 1;
-  }
+.spawn {
+  animation: erease 200ms ease-in-out;
 }
-@-webkit-keyframes expand {
-  0% {
-    width: 0px;
-    height: 0px;
-    opacity: 0;
+@keyframes erease {
+  from {
+    transform: scale(0.5);
   }
-  90% {
-    width: 120px;
-    height: 120px;
-    opacity: 1;
-  }
-  100% {
-    width: 100px;
-    height: 100px;
-    opacity: 1;
+  to {
+    transform: scale(1);
   }
 }

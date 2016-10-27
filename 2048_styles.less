@@ -27,44 +27,19 @@ td {
     td.cell@{name} {
         background-color: @color;
         text-shadow: 1px 1px 1px black; 
-        -webkit-animation: expand 400ms;
-        animation: expand 400ms;
     }
     .generate-td(@n, (@i + 1));
 }
 
-@keyframes expand {
-   0% {
-       width: 0px;
-       height: 0px;
-       opacity: 0;
-   }
-   90% {
-       width: 120px;
-       height: 120px;
-       opacity: 1;
-   }
-   100%{
-       width: 100px;
-       height: 100px;
-       opacity: 1;
-   }
+.spawn {
+    animation: erease 200ms ease-in-out;
 }
 
-@-webkit-keyframes expand {
-   0% {
-       width: 0px;
-       height: 0px;
-       opacity: 0;
-   }
-   90% {
-       width: 120px;
-       height: 120px;
-       opacity: 1;
-   }
-   100%{
-       width: 100px;
-       height: 100px;
-       opacity: 1;
-   }
+@keyframes erease {
+    from{
+        transform: scale(0.5);
+    }
+    to {
+        transform: scale(1);
+    }
 }
