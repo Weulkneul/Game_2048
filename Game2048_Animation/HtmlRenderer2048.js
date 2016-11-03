@@ -10,6 +10,7 @@ define("HtmlRenderer2048", [],
 
 			setClassesOfDiv() {
 				
+				
 			}
 
 			refreshBoardAndScore() {
