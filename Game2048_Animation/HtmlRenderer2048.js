@@ -8,24 +8,8 @@ define("HtmlRenderer2048", [],
 				this._game = game;
 			}
 
-			//Matrix als HTML-Tabelle in einem String zusammenfassen
-			printTable(newNumbersArray) {
-				let table = "<table>";
-				for (let i = 0; i < this._board.getSize(); i++) {
-					table += "<tr>";
-					for (let j = 0; j < this._board.getSize(); j++) {
-						let classes = "cell" + this._board.getMatrix()[i][j];
-						const NOTFOUND = -1;
-						if (newNumbersArray.indexOf((i * this._board.getSize()) + (j + 1)) !== NOTFOUND) {
-							classes += " spawn";
-						}
-						table += "<td class='" + classes + "'>" + this._board.getMatrix()[i][j] + "</td>";
-					}
-					table += "</tr>";
-				}
-				table += "</table>";
-
-				return table;
+			setClassesOfDiv() {
+				
 			}
 
 			refreshBoardAndScore() {

@@ -1,0 +1,69 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+p {
+  font-size: 20px;
+}
+td {
+  border: 1px solid black;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  font-size: 48px;
+  color: white;
+}
+td.cell2 {
+  background-color: #ff0000;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell4 {
+  background-color: #ff4444;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell8 {
+  background-color: #ff8000;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell16 {
+  background-color: #ffbf00;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell32 {
+  background-color: #ffff00;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell64 {
+  background-color: #bfff00;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell128 {
+  background-color: #00ff80;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell256 {
+  background-color: #00ffff;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell512 {
+  background-color: #0080ff;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell1024 {
+  background-color: #0000ff;
+  text-shadow: 1px 1px 1px black;
+}
+td.cell2048 {
+  background-color: #8000ff;
+  text-shadow: 1px 1px 1px black;
+}
+.spawn {
+  animation: erease 200ms ease-in-out;
+}
+@keyframes erease {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}

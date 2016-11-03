@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-size: 20px;
+}
+
+@cellSize: 100px;
+
+td {
+    border: 1px solid black;
+    text-align: center;
+    width: @cellSize;
+    height: @cellSize;
+    font-size: 48px;
+    color:white;
+}
+
+@colors : #ff0000, #ff4444, #ff8000, #ffbf00, #ffff00, #bfff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff;
+
+.generate-td(length(@colors));
+
+.generate-td(@n, @i: 1) when (@i =< @n) {
+    @name : pow(2, @i);
+    @color : extract(@colors, @i);
+    td.cell@{name} {
+        background-color: @color;
+        text-shadow: 1px 1px 1px black; 
+    }
+    .generate-td(@n, (@i + 1));
+}
+
+.spawn {
+    animation: erease 200ms ease-in-out;
+}
+
+@keyframes erease {
+    from{
+        transform: scale(0.5);
+    }
+    to {
+        transform: scale(1);
+    }
+}

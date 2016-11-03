@@ -1,0 +1,338 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+p {
+  font-size: 20px;
+}
+.spawn {
+  animation: erease 200ms ease-in-out;
+}
+@keyframes erease {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+#eins {
+  -webkit-transform: translate(0px, 0px);
+  -moz-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  -o-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+}
+#zwei {
+  -webkit-transform: translate(100px, 0px);
+  -moz-transform: translate(100px, 0px);
+  -ms-transform: translate(100px, 0px);
+  -o-transform: translate(100px, 0px);
+  transform: translate(100px, 0px);
+}
+#drei {
+  -webkit-transform: translate(200px, 0px);
+  -moz-transform: translate(200px, 0px);
+  -ms-transform: translate(200px, 0px);
+  -o-transform: translate(200px, 0px);
+  transform: translate(200px, 0px);
+}
+#vier {
+  -webkit-transform: translate(300px, 0px);
+  -moz-transform: translate(300px, 0px);
+  -ms-transform: translate(300px, 0px);
+  -o-transform: translate(300px, 0px);
+  transform: translate(300px, 0px);
+}
+
+#fünf {
+  -webkit-transform: translate(0px, 100px);
+  -moz-transform: translate(0px, 100px);
+  -ms-transform: translate(0px, 100px);
+  -o-transform: translate(0px, 100px);
+  transform: translate(0px, 100px);
+}
+#sechs {
+  -webkit-transform: translate(100px, 100px);
+  -moz-transform: translate(100px, 100px);
+  -ms-transform: translate(100px, 100px);
+  -o-transform: translate(100px, 100px);
+  transform: translate(100px, 100px);
+}
+#sieben {
+  -webkit-transform: translate(200px, 100px);
+  -moz-transform: translate(200px, 100px);
+  -ms-transform: translate(200px, 100px);
+  -o-transform: translate(200px, 100px);
+  transform: translate(200px, 100px);
+}
+#acht {
+  -webkit-transform: translate(300px, 100px);
+  -moz-transform: translate(300px, 100px);
+  -ms-transform: translate(300px, 100px);
+  -o-transform: translate(300px, 100px);
+  transform: translate(300px, 100px);
+}
+
+#neun {
+  -webkit-transform: translate(0px, 200px);
+  -moz-transform: translate(0px, 200px);
+  -ms-transform: translate(0px, 200px);
+  -o-transform: translate(0px, 200px);
+  transform: translate(0px, 200px);
+}
+#zehn {
+  -webkit-transform: translate(100px, 200px);
+  -moz-transform: translate(100px, 200px);
+  -ms-transform: translate(100px, 200px);
+  -o-transform: translate(100px, 200px);
+  transform: translate(100px, 200px);
+}
+#elf {
+  -webkit-transform: translate(200px, 200px);
+  -moz-transform: translate(200px, 200px);
+  -ms-transform: translate(200px, 200px);
+  -o-transform: translate(200px, 200px);
+  transform: translate(200px, 200px);
+}
+#zwölf {
+  -webkit-transform: translate(300px, 200px);
+  -moz-transform: translate(300px, 200px);
+  -ms-transform: translate(300px, 200px);
+  -o-transform: translate(300px, 200px);
+  transform: translate(300px, 200px);
+}
+
+#dreizehn {
+  -webkit-transform: translate(0px, 300px);
+  -moz-transform: translate(0px, 300px);
+  -ms-transform: translate(0px, 300px);
+  -o-transform: translate(0px, 300px);
+  transform: translate(0px, 300px);
+}
+#vierzehn {
+  -webkit-transform: translate(100px, 300px);
+  -moz-transform: translate(100px, 300px);
+  -ms-transform: translate(100px, 300px);
+  -o-transform: translate(100px, 300px);
+  transform: translate(100px, 300px);
+}
+#fünfzehn {
+  -webkit-transform: translate(200px, 300px);
+  -moz-transform: translate(200px, 300px);
+  -ms-transform: translate(200px, 300px);
+  -o-transform: translate(200px, 300px);
+  transform: translate(200px, 300px);
+}
+#sechzehn {
+  -webkit-transform: translate(300px, 300px);
+  -moz-transform: translate(300px, 300px);
+  -ms-transform: translate(300px, 300px);
+  -o-transform: translate(300px, 300px);
+  transform: translate(300px, 300px);
+}
+
+div {
+  position: absolute;
+  border: 1px solid black;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  font-size: 48px;
+  color: white;
+}
+
+obenEins {
+  -webkit-transform: translate(0px, -100px);
+  -moz-transform: translate(0px, -100px);
+  -ms-transform: translate(0px, -100px);
+  -o-transform: translate(0px, -100px);
+  transform: translate(0px, -100px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+obenZwei {
+  -webkit-transform: translate(0px, -200px);
+  -moz-transform: translate(0px, -200px);
+  -ms-transform: translate(0px, -200px);
+  -o-transform: translate(0px, -200px);
+  transform: translate(0px, -200px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+obenDrei {
+  -webkit-transform: translate(0px, -300px);
+  -moz-transform: translate(0px, -300px);
+  -ms-transform: translate(0px, -300px);
+  -o-transform: translate(0px, -300px);
+  transform: translate(0px, -300px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+obenVier {
+  -webkit-transform: translate(0px, -400px);
+  -moz-transform: translate(0px, -400px);
+  -ms-transform: translate(0px, -400px);
+  -o-transform: translate(0px, -400px);
+  transform: translate(0px, -400px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+
+untenEins {
+  -webkit-transform: translate(0px, 100px);
+  -moz-transform: translate(0px, 100px);
+  -ms-transform: translate(0px, 100px);
+  -o-transform: translate(0px, 100px);
+  transform: translate(0px, 100px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+untenZwei {
+  -webkit-transform: translate(0px, 200px);
+  -moz-transform: translate(0px, 200px);
+  -ms-transform: translate(0px, 200px);
+  -o-transform: translate(0px, 200px);
+  transform: translate(0px, 200px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+untenDrei {
+  -webkit-transform: translate(0px, 300px);
+  -moz-transform: translate(0px, 300px);
+  -ms-transform: translate(0px, 300px);
+  -o-transform: translate(0px, 300px);
+  transform: translate(0px, 300px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+untenVier {
+  -webkit-transform: translate(0px, 400px);
+  -moz-transform: translate(0px, 400px);
+  -ms-transform: translate(0px, 400px);
+  -o-transform: translate(0px, 400px);
+  transform: translate(0px, 400px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+
+linksEins {
+  -webkit-transform: translate(-100px, 0px);
+  -moz-transform: translate(-100px, 0px);
+  -ms-transform: translate(-100px, 0px);
+  -o-transform: translate(-100px, 0px);
+  transform: translate(-100px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+linksZwei {
+  -webkit-transform: translate(-200px, 0px);
+  -moz-transform: translate(-200px, 0px);
+  -ms-transform: translate(-200px, 0px);
+  -o-transform: translate(-200px, 0px);
+  transform: translate(-200px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+linksDrei {
+  -webkit-transform: translate(-300px, 0px);
+  -moz-transform: translate(-300px, 0px);
+  -ms-transform: translate(-300px, 0px);
+  -o-transform: translate(-300px, 0px);
+  transform: translate(-300px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+linksVier {
+  -webkit-transform: translate(-400px, 0px);
+  -moz-transform: translate(-400px, 0px);
+  -ms-transform: translate(-400px, 0px);
+  -o-transform: translate(-400px, 0px);
+  transform: translate(-400px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+
+rechtsEins {
+  -webkit-transform: translate(100px, 0px);
+  -moz-transform: translate(100px, 0px);
+  -ms-transform: translate(100px, 0px);
+  -o-transform: translate(100px, 0px);
+  transform: translate(100px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+rechtsZwei {
+  -webkit-transform: translate(200px, 0px);
+  -moz-transform: translate(200px, 0px);
+  -ms-transform: translate(200px, 0px);
+  -o-transform: translate(200px, 0px);
+  transform: translate(200px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+rechtsDrei {
+  -webkit-transform: translate(300px, 0px);
+  -moz-transform: translate(300px, 0px);
+  -ms-transform: translate(300px, 0px);
+  -o-transform: translate(300px, 0px);
+  transform: translate(300px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+rechtsVier {
+  -webkit-transform: translate(400px, 0px);
+  -moz-transform: translate(400px, 0px);
+  -ms-transform: translate(400px, 0px);
+  -o-transform: translate(400px, 0px);
+  transform: translate(400px, 0px);
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -ms-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
