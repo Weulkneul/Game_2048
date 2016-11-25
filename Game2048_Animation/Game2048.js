@@ -8,44 +8,40 @@ define("Game2048",
 			resetGame(GAMEBOARDSIZE) {
 				this._board = new GameBoard2048(GAMEBOARDSIZE);
 				this._renderer = new HtmlRenderer2048(this._board, this);
-				this._renderer.refreshBoardAndScore(this._board.getNewNumbersArray());
+				this._renderer.createGameBoard();
 				this._listenForEvents();
 			}
 
 			_listenForEvents() {
 				document.onkeydown = this._handleKeyboardInput.bind(this);
 			}
+
 			_handleKeyboardInput(e) {
-				console.log(this._board.checkGameOver());
+				let tiles = JSON.parse(JSON.stringify(this._board.getTiles()));
+				let moved = false;
 				switch (e.key) {
 					case "ArrowLeft":
 						this._board.moveLeft();
-						this._renderer.refreshBoardAndScore(this._board.getNewNumbersArray());
-						if (this._board.checkGameOver()) {
-							this._renderer.placeRestartButton();
-						}
+						moved = true;
 						break;
 					case "ArrowUp":
 						this._board.moveUp();
-						this._renderer.refreshBoardAndScore(this._board.getNewNumbersArray());
-						if (this._board.checkGameOver()) {
-							this._renderer.placeRestartButton();
-						}
+						moved = true;
 						break;
 					case "ArrowRight":
 						this._board.moveRight();
-						this._renderer.refreshBoardAndScore(this._board.getNewNumbersArray());
-						if (this._board.checkGameOver()) {
-							this._renderer.placeRestartButton();
-						}
+						moved = true;
 						break;
 					case "ArrowDown":
 						this._board.moveDown();
-						this._renderer.refreshBoardAndScore(this._board.getNewNumbersArray());
-						if (this._board.checkGameOver()) {
-							this._renderer.placeRestartButton();
-						}
+						moved = true;
 						break;
+				}
+				if (moved) {
+					this._renderer.refreshBoardAndScore(tiles, this._board.getTiles());
+					if (this._board.checkGameOver()) {
+						this._renderer.placeRestartButton();
+					}
 				}
 			}
 
