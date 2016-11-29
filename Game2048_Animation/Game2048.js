@@ -17,7 +17,7 @@ define("Game2048",
 			}
 
 			_handleKeyboardInput(e) {
-				let tiles = JSON.parse(JSON.stringify(this._board.getTiles()));
+				let oldTiles = JSON.parse(JSON.stringify(this._board.getTiles()));
 				let moved = false;
 				switch (e.key) {
 					case "ArrowLeft":
@@ -38,7 +38,7 @@ define("Game2048",
 						break;
 				}
 				if (moved) {
-					this._renderer.refreshBoardAndScore(tiles, this._board.getTiles());
+					this._renderer.refreshBoardAndScore(oldTiles, this._board.getTiles());
 					if (this._board.checkGameOver()) {
 						this._renderer.placeRestartButton();
 					}

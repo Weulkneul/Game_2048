@@ -15,6 +15,9 @@ define("Tile", [],
 			getPosition() {
 				return this._position;
 			}
+			getMoved() {
+				return this._moved;
+			}
 
 			setValue(value) {
 				this._value = value;
@@ -37,6 +40,9 @@ define("Tile", [],
 						this._position.y += 1;
 						break;
 				}
+			}
+			moved() {
+				this._moved = true;
 			}
 
 			constructor(value, combinedTiles, position) {

@@ -10,26 +10,28 @@ define("HtmlRenderer2048", [],
 
 			createGameBoard() {
 				let gameboard = document.getElementById("board");
-
+				while (gameboard.firstChild) {
+					gameboard.removeChild(gameboard.firstChild);
+				}
 				for (let i = 0; i < this._board.getTiles().length; i++) {
 					for (let j = 0; j < this._board.getTiles()[i].length; j++) {
-						let divTile = document.createElement("div");
+						let newDivRepresentingTile = document.createElement("div");
 						const POSITIONFACTOR = gameboard.offsetWidth / this._board.getSize();
-						divTile.style.width = (gameboard.offsetWidth / this._board.getSize()) + "px";
-						divTile.style.height = (gameboard.offsetHeight / this._board.getSize()) + "px";
-						divTile.style.lineHeight = (gameboard.offsetHeight / this._board.getSize()) + "px";
-						divTile.id = "cell" + this._board.getTiles()[i][j].getId();
+						newDivRepresentingTile.style.width = (gameboard.offsetWidth / this._board.getSize()) + "px";
+						newDivRepresentingTile.style.height = (gameboard.offsetHeight / this._board.getSize()) + "px";
+						newDivRepresentingTile.style.lineHeight = (gameboard.offsetHeight / this._board.getSize()) + "px";
+						newDivRepresentingTile.id = "cell" + this._board.getTiles()[i][j].getId();
 						if (this._board.getNewNumbersArray().includes((i * this._board.getSize()) + (j + 1))) {
-							divTile.className = "spawn";
+							newDivRepresentingTile.className = "spawn";
 						}
-						divTile.className += " number" + this._board.getTiles()[i][j].getValue();
-						divTile.textContent = this._board.getTiles()[i][j].getValue() || "";
-						divTile.style.top = (i * POSITIONFACTOR) + "px";
-						divTile.style.left = (j * POSITIONFACTOR) + "px";
-						gameboard.appendChild(divTile);
+						newDivRepresentingTile.className += " number" + this._board.getTiles()[i][j].getValue();
+						newDivRepresentingTile.textContent = this._board.getTiles()[i][j].getValue() || "";
+						newDivRepresentingTile.style.top = (i * POSITIONFACTOR) + "px";
+						newDivRepresentingTile.style.left = (j * POSITIONFACTOR) + "px";
+						gameboard.appendChild(newDivRepresentingTile);
 					}
 				}
-				document.getElementById("score").innerHTML = "Score: " + this._board.getScore();
+				document.getElementById("score").textContent = "Score: " + this._board.getScore();
 			}
 
 			refreshBoardAndScore(oldTiles, newTiles) {
@@ -54,7 +56,7 @@ define("HtmlRenderer2048", [],
 
 				for (let i = 0; i < newTiles.length; i++) {
 					for (let j = 0; j < newTiles[i].length; j++) {
-						if (newTiles[i][j]._moved) {
+						if (newTiles[i][j].getMoved()) {
 							for (let l = 0; l < oldTiles.length; l++) {
 								for (let m = 0; m < oldTiles[l].length; m++) {
 									if (newTiles[i][j].getId() === oldTiles[l][m]._id) {
@@ -68,19 +70,24 @@ define("HtmlRenderer2048", [],
 			}
 
 			_spawnNewNumbers() {
-				const POSITIONFACTOR = document.getElementById("board").offsetWidth / this._board.getSize();
+				let gameboard = document.getElementById("board");
+				const POSITIONFACTOR = gameboard.offsetWidth / this._board.getSize();
 				for (let j = 0; j < this._board.getTiles().length; j++) {
 					for (let k = 0; k < this._board.getTiles()[j].length; k++) {
 						if (document.getElementById("cell" + this._board.getTiles()[j][k].getId()) === null) {
 							let newdivTile = document.createElement("div");
-							newdivTile.style.width = (document.getElementById("board").offsetWidth / this._board.getSize()) + "px";
-							newdivTile.style.height = (document.getElementById("board").offsetHeight / this._board.getSize()) + "px";
-							newdivTile.style.lineHeight = (document.getElementById("board").offsetHeight / this._board.getSize()) + "px";
+							newdivTile.style.width = (gameboard.offsetWidth / this._board.getSize()) + "px";
+							newdivTile.style.height = (gameboard.offsetHeight / this._board.getSize()) + "px";
+							newdivTile.style.lineHeight = (gameboard.offsetHeight / this._board.getSize()) + "px";
 							newdivTile.id = "cell" + this._board.getTiles()[j][k].getId();
-							document.getElementById("board").appendChild(newdivTile);
+							gameboard.appendChild(newdivTile);
 							//Löschen der alten Tiles
 							for (let tiles in this._board.getTiles()[j][k].getCombinedTiles()) {
-								document.getElementById("cell" + this._board.getTiles()[j][k].getCombinedTiles()[tiles]).parentNode.removeChild(document.getElementById("cell" + this._board.getTiles()[j][k].getCombinedTiles()[tiles]));
+								let cellToDelete = document.getElementById("cell" + this._board.getTiles()[j][k].getCombinedTiles()[tiles]);
+								if (!cellToDelete) {
+									return;
+								}
+								cellToDelete.parentNode.removeChild(cellToDelete);
 							}
 						}
 						document.getElementById("cell" + this._board.getTiles()[j][k].getId()).textContent = this._board.getTiles()[j][k].getValue() || "";
@@ -93,66 +100,85 @@ define("HtmlRenderer2048", [],
 					}
 				}
 				this._board.resetCombinedTiles();
+				document.getElementById("score").textContent = "Score: " + this._board.getScore();
 			}
 
-			_animate(tile, xMovement, yMovement) {
-				let topPosition = document.getElementById("cell" + tile).style.top;
+			_animate(tile, xDifference, yDifference) {
+				let cell = document.getElementById("cell" + tile);
+				if (!cell) {
+					return;
+				}
+				let topPosition = cell.style.top;
 				topPosition = parseInt(topPosition.replace("px", ""));
-				let leftPosition = document.getElementById("cell" + tile).style.left;
+				let leftPosition = cell.style.left;
 				leftPosition = parseInt(leftPosition.replace("px", ""));
 				let position = 0;
 				const POSITIONFACTOR = document.getElementById("board").offsetWidth / this._board.getSize();
-				if (xMovement !== 0) {
+				if (xDifference !== 0) {
 					position = leftPosition;
 				}
 				else {
 					position = topPosition;
 				}
-				const TIMEOUT = 1;
-				let id = setInterval(frame.bind(this), TIMEOUT);
+				const TIMEOUT = 12;
+				let time = 0;
+				if (xDifference === 1 || xDifference === -1 || yDifference === 1 || yDifference === -1) {
+					time = TIMEOUT;
+				}
+				else if (xDifference === 2 || xDifference === -2 || yDifference === 2 || yDifference === -2) {
+					time = TIMEOUT / 2;
+				}
+				else if (xDifference === 3 || xDifference === -3 || yDifference === 3 || yDifference === -3) {
+					time = TIMEOUT / 3;
+				}
+				let id = setInterval(frame.bind(this), time);
 				function frame() {
-					if (xMovement < 0) {
-						if (position === leftPosition - (xMovement * POSITIONFACTOR)) {
+					if (!cell) {
+						return;
+					}
+
+					if (xDifference < 0) {
+						if (position >= leftPosition - (xDifference * POSITIONFACTOR)) {
 							clearInterval(id);
 							this._spawnNewNumbers();
 						}
 						else {
-							position++;
-							document.getElementById("cell" + tile).style.top = topPosition + "px";
-							document.getElementById("cell" + tile).style.left = position + "px";
+							position += 10;
+							cell.style.top = topPosition + "px";
+							cell.style.left = position + "px";
 						}
 					}
-					if (xMovement > 0) {
-						if (position === leftPosition - (xMovement * POSITIONFACTOR)) {
+					if (xDifference > 0) {
+						if (position <= leftPosition - (xDifference * POSITIONFACTOR)) {
 							clearInterval(id);
 							this._spawnNewNumbers();
 						}
 						else {
-							position--;
-							document.getElementById("cell" + tile).style.top = topPosition + "px";
-							document.getElementById("cell" + tile).style.left = position + "px";
+							position -= 10;
+							cell.style.top = topPosition + "px";
+							cell.style.left = position + "px";
 						}
 					}
-					if (yMovement < 0) {
-						if (position === topPosition - (yMovement * POSITIONFACTOR)) {
+					if (yDifference < 0) {
+						if (position >= topPosition - (yDifference * POSITIONFACTOR)) {
 							clearInterval(id);
 							this._spawnNewNumbers();
 						}
 						else {
-							position++;
-							document.getElementById("cell" + tile).style.top = position + "px";
-							document.getElementById("cell" + tile).style.left = leftPosition + "px";
+							position += 10;
+							cell.style.top = position + "px";
+							cell.style.left = leftPosition + "px";
 						}
 					}
-					if (yMovement > 0) {
-						if (position === topPosition - (yMovement * POSITIONFACTOR)) {
+					if (yDifference > 0) {
+						if (position <= topPosition - (yDifference * POSITIONFACTOR)) {
 							clearInterval(id);
 							this._spawnNewNumbers();
 						}
 						else {
-							position--;
-							document.getElementById("cell" + tile).style.top = position + "px";
-							document.getElementById("cell" + tile).style.left = leftPosition + "px";
+							position -= 10;
+							cell.style.top = position + "px";
+							cell.style.left = leftPosition + "px";
 						}
 					}
 				}

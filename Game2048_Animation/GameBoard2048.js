@@ -20,12 +20,12 @@ function (Tile) {
 		}
 
 		_getRandomFreeCell() {
-			let zahl = 0;
+			let randomNumberOneToSixteen = 0;
 			//While-Schleife läuft solange bis eine Zahl zwischen 1 und Size² gefunden wurde, die eine leere Position im Array findet
 			do {
-				zahl = Math.floor(Math.random() * this._size * this._size) + 1;
-			} while (this._tiles[this._getRow(zahl)][this._getColumn(zahl)].getValue() !== 0);
-			return zahl;
+				randomNumberOneToSixteen = Math.floor(Math.random() * this._size * this._size) + 1;
+			} while (this._tiles[this._getRow(randomNumberOneToSixteen)][this._getColumn(randomNumberOneToSixteen)].getValue() !== 0);
+			return randomNumberOneToSixteen;
 		}
 
 		_getRandomCellValue() {
@@ -73,9 +73,9 @@ function (Tile) {
 		}
 
 		_spawnNumber() {
-			let zahl = this._getRandomFreeCell();
-			this._tiles[this._getRow(zahl)][this._getColumn(zahl)].setValue(this._getRandomCellValue());
-			return zahl;
+			let randomNumber = this._getRandomFreeCell();
+			this._tiles[this._getRow(randomNumber)][this._getColumn(randomNumber)].setValue(this._getRandomCellValue());
+			return randomNumber;
 		}
 
 		checkGameOver() {
@@ -127,7 +127,7 @@ function (Tile) {
 							[this._tiles[i][j + 1], this._tiles[i][j]] = [this._tiles[i][j], this._tiles[i][j + 1]];
 							this._tiles[i][j + 1].changePosition("right");
 							this._tiles[i][j].changePosition("left");
-							this._tiles[i][j + 1]._moved = true;
+							this._tiles[i][j + 1].moved();
 							changed = true;
 							j++;
 						}
@@ -169,7 +169,7 @@ function (Tile) {
 							[this._tiles[i][j - 1], this._tiles[i][j]] = [this._tiles[i][j], this._tiles[i][j - 1]];
 							this._tiles[i][j - 1].changePosition("left");
 							this._tiles[i][j].changePosition("right");
-							this._tiles[i][j - 1]._moved = true;
+							this._tiles[i][j - 1].moved();
 							changed = true;
 							j--;
 						}
@@ -209,7 +209,7 @@ function (Tile) {
 							[this._tiles[i - 1][j], this._tiles[i][j]] = [this._tiles[i][j], this._tiles[i - 1][j]];
 							this._tiles[i - 1][j].changePosition("up");
 							this._tiles[i][j].changePosition("down");
-							this._tiles[i - 1][j]._moved = true;
+							this._tiles[i - 1][j].moved();
 							changed = true;
 							i--;
 						}
@@ -248,7 +248,7 @@ function (Tile) {
 							[this._tiles[i + 1][j], this._tiles[i][j]] = [this._tiles[i][j], this._tiles[i + 1][j]];
 							this._tiles[i + 1][j].changePosition("down");
 							this._tiles[i][j].changePosition("up");
-							this._tiles[i + 1][j]._moved = true;
+							this._tiles[i + 1][j].moved();
 							changed = true;
 							i++;
 						}
