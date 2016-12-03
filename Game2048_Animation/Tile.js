@@ -44,7 +44,8 @@ define("Tile", [],
 			moved() {
 				this._moved = true;
 			}
-
+			// Id wird beim Erstellen eines neuen Tiles durch ein statisches Klassenattribut repräsentiert, welches jedesmal inkrementiert wird
+			// Moved ist ein boolesches Attribut, dass nur auf true gesetzt wird, wenn das verschobene Tile animiert werden muss
 			constructor(value, combinedTiles, position) {
 				this._value = value;
 				this._id = Tile.NEXTID++;

@@ -38,10 +38,11 @@ p {
     visibility: hidden;
 }
 
+
 @colors : #ff0000, #FF33CC, #ff8000, #ffbf00, #ffff00, #bfff00, #00ff80, #00ffff, #0080ff, #0000ff, #8000ff;
 
 .generate-td(length(@colors));
-
+/*rekursive Funktion, die entsprechende Farben automatisch setzt*/
 .generate-td(@n, @i: 1) when (@i =< @n) {
     @name : pow(2, @i);
     @color : extract(@colors, @i);

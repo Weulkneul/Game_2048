@@ -21,7 +21,7 @@ function (Tile) {
 
 		_getRandomFreeCell() {
 			let randomNumberOneToSixteen = 0;
-			//While-Schleife läuft solange bis eine Zahl zwischen 1 und Size² gefunden wurde, die eine leere Position im Array findet
+			//While-Schleife läuft solange bis eine Zahl zwischen 1 und Size² gefunden wurde, die ein Tile im Array findet, welches einen Value von 0 aufweist
 			do {
 				randomNumberOneToSixteen = Math.floor(Math.random() * this._size * this._size) + 1;
 			} while (this._tiles[this._getRow(randomNumberOneToSixteen)][this._getColumn(randomNumberOneToSixteen)].getValue() !== 0);
@@ -29,6 +29,7 @@ function (Tile) {
 		}
 
 		_getRandomCellValue() {
+			// 90% eine 2 zu spawnen, 10% für eine 4
 			const CELLVALUEPROBABILITYSPAWNINGTWO = 0.9;
 			const CELLVALUETWO = 2;
 			const CELLVALUEFOUR = 4;
@@ -61,6 +62,7 @@ function (Tile) {
 			this._newNumbersArray.push(this._spawnNumber());
 		}
 
+		// Nach jedem Zug müssen die Verweise auf die ineinander verschobenen Tiles resetet werden
 		resetCombinedTiles() {
 			for (let i = 0; i < this._tiles.length; i++) {
 				for (let j = 0; j < this._tiles[i].length; j++) {
@@ -84,19 +86,19 @@ function (Tile) {
 					//Überprüft eine leere Stelle vorkommt -> Nicht zu Ende
 					if (this._tiles[i][j].getValue() === 0) {
 						return false;
-					//Überprüft die Nachbarn erste Zeile außer die beiden äußeren Spalten auf Gleichheit(links, unten, rechts)
+					//Überprüft die Nachbarn in der ersten Zeile, außer die beiden äußeren Spalten, auf Gleichheit(links, unten, rechts)
 					}
 					else if (i === 0 && (j < this._tiles[i].length - 1 && j > 0) && ((this._tiles[i][j].getValue() === this._tiles[i][j - 1].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i + 1][j].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i][j + 1].getValue()))) {
 						return false;
-					//Überprüft die Nachbarn alles außer erste und zweite Zeile nur für die erste und letzte Spalte auf Gleichheit(oben, unten)
+					//Überprüft die Nachbarn, alles außer erste und letzte Zeile, nur für die erste und letzte Spalte auf Gleichheit(oben, unten)
 					}
 					else if ((i > 0 && i < this._tiles.length - 1) && (j === 0 || j === this._tiles[i].length - 1) && ((this._tiles[i][j].getValue() === this._tiles[i - 1][j].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i + 1][j].getValue()))) {
 						return false;
-					//Überprüft die Nachbarn alles außer erste und zweite Zeile für die anderen Spalten auf Gleichheit(links, unten, oben, rechts)
+					//Überprüft die Nachbarn, alles außer erste und letzte Zeile, für die verbleibenen Spalten auf Gleichheit(links, unten, oben, rechts)
 					}
 					else if ((i > 0 && i < this._tiles.length - 1) && (j > 0 && j < this._tiles[i].length - 1) && ((this._tiles[i][j].getValue() === this._tiles[i][j - 1].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i - 1][j].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i + 1][j].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i][j + 1].getValue()))) {
 						return false;
-					//Überprüft die Nachbarn letzte Zeile außer die beiden äußeren Spalten auf Gleichheit(links, oben, rechts)
+					//Überprüft die Nachbarn letzte Zeile, außer die beiden äußeren Spalten auf Gleichheit(links, oben, rechts)
 					}
 					else if (i === this._tiles.length - 1 && (j < this._tiles[i].length - 1 && j > 0) && ((this._tiles[i][j].getValue() === this._tiles[i][j - 1].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i - 1][j].getValue()) || (this._tiles[i][j].getValue() === this._tiles[i][j + 1].getValue()))) {
 						return false;
@@ -109,7 +111,7 @@ function (Tile) {
 		moveRight() {
 		//Variable "changed" zeigt, ob sich die Matrix geändert hat
 			let changed = false;
-			//Alle "neuen" Zahlen in einem Array merken
+			//Alle "neuen" Zahlen in einem Array merken, um diese animieren zu können
 			this._newNumbersArray = [];
 			//Spalten durchlaufen
 			for (let i = 0; i < this._tiles.length; i++) {
@@ -124,6 +126,7 @@ function (Tile) {
 					if (this._tiles[i][j].getValue() !== 0) {
 					//Die Zahl soweit wie möglich nach rechts schieben
 						while (j < this._tiles[i].length - 1 && this._tiles[i][j + 1].getValue() === 0) {
+							//Tiles miteinander tauschen und Positionen abändern
 							[this._tiles[i][j + 1], this._tiles[i][j]] = [this._tiles[i][j], this._tiles[i][j + 1]];
 							this._tiles[i][j + 1].changePosition("right");
 							this._tiles[i][j].changePosition("left");
@@ -131,12 +134,14 @@ function (Tile) {
 							changed = true;
 							j++;
 						}
-						//Zahlen zusammenfügen, falls der Zahlenwert gleich ist
+						//Tiles zusammenfügen, falls die Values gleich sind und die Zahlen nicht schon in diesem Zug schon ineinander geschoben wurden
 						if (j < this._tiles[i].length - 1 && this._tiles[i][j].getValue() === this._tiles[i][j + 1].getValue() && !alreadyJoinedTogether[j] && !alreadyJoinedTogether[j + 1]) {
+							// Id's der ineinander geschobenen Tiles abspeichern
 							let combinedTiles = new Array();
 							combinedTiles.push(this._tiles[i][j].getId());
 							combinedTiles.push(this._tiles[i][j + 1].getId());
 
+							// Zwei neue Tiles erstellen: zusammengefügtes Tile und das vorherige Tile reseten
 							this._tiles[i][j + 1] = new Tile(this._tiles[i][j].getValue() + this._tiles[i][j + 1].getValue(), combinedTiles, this._tiles[i][j + 1].getPosition());
 							this._tiles[i][j] = new Tile(0, [], this._tiles[i][j].getPosition());
 
@@ -156,6 +161,7 @@ function (Tile) {
 		}
 
 		moveLeft() {
+			// Siehe moveRight() -> einzige Änderung in der Richtung zum Durchlaufen des Arrays
 			let changed = false;
 			this._newNumbersArray = [];
 			for (let i = 0; i < this._tiles.length; i++) {
@@ -196,6 +202,7 @@ function (Tile) {
 		}
 
 		moveUp() {
+			// Siehe moveRight() -> einzige Änderung in der Richtung zum Durchlaufen des Arrays
 			let changed = false;
 			this._newNumbersArray = [];
 			for (let j = 0; j < this._tiles.length; j++) {
@@ -235,6 +242,7 @@ function (Tile) {
 		}
 
 		moveDown() {
+			// Siehe moveRight() -> einzige Änderung in der Richtung zum Durchlaufen des Arrays
 			let changed = false;
 			this._newNumbersArray = [];
 			for (let j = 0; j < this._tiles.length; j++) {

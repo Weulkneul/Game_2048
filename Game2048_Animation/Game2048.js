@@ -17,6 +17,7 @@ define("Game2048",
 			}
 
 			_handleKeyboardInput(e) {
+				// tiefe Kopie der Tiles bevor sie verschoben wurden
 				let oldTiles = JSON.parse(JSON.stringify(this._board.getTiles()));
 				let moved = false;
 				switch (e.key) {
@@ -37,6 +38,8 @@ define("Game2048",
 						moved = true;
 						break;
 				}
+				// Falls eine der Arrow Tasten gedrückt wurden, wird die tiefe Kopie und der aktuelle Stand der Tiles an den Renderer weitergeleitet.
+				// Ansonsten findet eine Überprüfung statt, ob Tiles überhaupt noch verschoben oder ineinander geschoben werden können
 				if (moved) {
 					this._renderer.refreshBoardAndScore(oldTiles, this._board.getTiles());
 					if (this._board.checkGameOver()) {
@@ -46,6 +49,7 @@ define("Game2048",
 			}
 
 			constructor() {
+				// Legt die Spielfeldgröße fest. Standardfall Größe: 4
 				const GAMEBOARDSIZE = 4;
 				this.resetGame(GAMEBOARDSIZE);
 			}
